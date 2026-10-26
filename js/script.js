@@ -40,8 +40,19 @@ const contactForm = document.querySelector('#contactForm');
 if (contactForm) {
   contactForm.addEventListener('submit', (event) => {
     event.preventDefault();
-    const notice = document.querySelector('#formNotice');
-    notice.textContent = 'Pesan belum dikirim. Hubungkan form ini ke email, WhatsApp, atau server resmi CRA University.';
+    const formData = new FormData(contactForm);
+    const message = [
+      'Halo CRA University, saya ingin mengetahui lebih lanjut.',
+      '',
+      `Nama Lengkap: ${formData.get('name')}`,
+      `Email / WhatsApp: ${formData.get('contact')}`,
+      `Perusahaan / Komunitas: ${formData.get('organization') || '-'}`,
+      `Program yang Diminati: ${formData.get('program')}`,
+      `Pesan: ${formData.get('message') || '-'}`
+    ].join('\n');
+    const whatsappUrl = `https://wa.me/6285755976016?text=${encodeURIComponent(message)}`;
+
+    window.location.href = whatsappUrl;
   });
 }
 
